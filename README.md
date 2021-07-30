@@ -1,7 +1,7 @@
 # speedtest-grafana-windows
 Repository containing an internet speed meter for windows with dashboard in grafana and service with autoit and go.
 
-View
+View - [PELLIT - Speedtest.json]
 -------------------------------------------------
 
 ![Pellit - Speedtest_view1](https://user-images.githubusercontent.com/57459067/127653636-82fe98fb-a445-4d5b-96dc-be107f53ccd5.JPG)
