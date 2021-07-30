@@ -3,7 +3,8 @@ Repository containing an internet speed meter for windows with dashboard in graf
 
 View
 -------------------------------------------------
-https://github.com/pellit/speedtest-grafana-windows/issues/1#issue-956706617
+
+![Pellit - Speedtest_view1](https://user-images.githubusercontent.com/57459067/127653636-82fe98fb-a445-4d5b-96dc-be107f53ccd5.JPG)
 -------------------------------------------------
 
 Installation
