@@ -37,10 +37,8 @@ Sleep(1000)
 If @error Then Exit MsgBox ($MB_SYSTEMMODAL,"","Error al descomprimir archivo : " & @error)
 Sleep(1000)
 FileCopy($dir1 & "\nssm-2.24\win64\nssm.exe",$dir1)
-install_service_speedtest()
-install_software()
-;~ xampp_install()
 set_ini()
+telegram_ini()
 DirRemove($dir1 & "\nssm-2.24",1)
 FileDelete($sZipFile)
 
@@ -49,24 +47,6 @@ FileDelete($sZipFile)
 Func install_service_speedtest()
 	Local $DOS
 	$DOS = Run(@ComSpec & ' /c nssm install speedtest_pellit ', "", @SW_HIDE, $STDOUT_CHILD + $STDERR_CHILD)
-EndFunc
-
-Func xampp_install()
-	Local $iIndex = _ArraySearch($aSOFTinstall, "XAMPP", 0, 0, 0, 0, 1, 1)
-;~ 	MsgBox($MB_SYSTEMMODAL, "Found '#32'", "Column 2 on Row " & $iIndex)
-	If $iIndex = -1 Then
-		Run($dir1 & "\xampp-windows-x64-7.3.29-1-VC15-installer.exe")
-		WinActive("Setup")
-		WinWaitActive("Setup")
-		Send("{TAB}")
-		Sleep(100)
-		Send("{ENTER}")
-		Sleep(100)
-		Send("{ENTER}")
-		Sleep(100)
-		Send("{ENTER}")
-		WinWaitClose("Setup")
-	EndIf
 EndFunc
 
 Func set_ini()
@@ -82,38 +62,35 @@ If Not FileExists($inifile) Then
 Else
 	IniRead($inifile, "config", @MON & @MDAY, "")
 EndIf
-;===============Example use .ini file=============================
-;~ simplemente sepárelos con comas o algo así.
-;~ [cumpleaños]
-;~ 0713 = Helge, Thomas
-;~ 0613 = Heidi
-;~ 1212 = mamá
-;~ Entonces, para verificar si hoy es el cumpleaños de alguien, puedes hacer algo como esto:
-;~ IniRead ( "c: \ cumpleaños.ini" ,  "cumpleaños" ,  @MON  &  @MDAY ,  "" )
-;=================================================================
-
 EndFunc
 
-
-
-
-
+Func telegram_ini()
+	Local $inifile = $dir1 & "\telegramBot.ini"
+If Not FileExists($inifile) Then
+	MsgBox(0, "Creación de archivo de configuracion", "El archivo ini no existe, creando...", 3) 
+	Local $file = FileOpen($inifile)
+	FileWriteLine($inifile , $dir1)
+	FileWriteLine($file, $dir1)
+	Local $Token = InputBox("PELLIT - speedtest configuration","Ingrese token de bot","")
+	Local $ID = InputBox("PELLIT - speedtest configuration","Ingrese ID de chat","")
+	FileWriteLine($inifile, $Token)
+	FileWriteLine($inifile, $ID)
+	FileClose($file)
+Else
+	IniRead($inifile, "telegramBot", @MON & @MDAY, "")
+EndIf
+EndFunc
 
 Func create_folder()
-;~ 	Global $dir0 = @ScriptDir & "\PELLIT"
 If Not FileExists($dir0) Then
-;~ 	MsgBox(0, "Creación de la carpeta", "La carpeta Asistencia_Imagenes no existe, creando...", 3) ; El mensaje está 3 segundos.
 	DirCreate($dir0)
 EndIf
-;~ 	Global $dir1 = $dir0 & "\Speedtest"
 If Not FileExists($dir1) Then
-;~ 	MsgBox(0, "Creación de la carpeta", "La carpeta Asistencia_Imagenes no existe, creando...", 3) ; El mensaje está 3 segundos.
 	DirCreate($dir0)
 	ConsoleWrite("Carpeta creada en " & $dir1 & @CRLF)
 EndIf
 Sleep(1000)
 EndFunc
-
 
 
 Func UnZip($sZipFile, $sDestFolder)
@@ -132,34 +109,3 @@ Func UnZip($sZipFile, $sDestFolder)
   Next
 EndFunc   ;==>UnZip
 
-
-Func install_software()
-;~ :Listar programas instalados
-;~ BlockInput($BI_DISABLE)
-Local $name=@ComputerName
-Global $file = @ScriptDir & "\Software-" & @ComputerName & "_" & @UserName & "-" & @MDAY & "_" & @MON & "_" & @YEAR & ".txt"
-Local $output = "C:\misprogramas.txt"
-Local $output1 = "C:\CPU.txt"
-Local $output2 = "C:\ALL.txt"
-Local $output3 = "C:\system.txt"
-Local $CMD_win7 = "wmic /output:" & $output & " product get name, version"
-;~ Local $sysinfo = "WMIC /Output:" & $output1 & " CPU get /all /format:LIST"
-;~ Local $sysinfo2 = "WMIC /Output:" & $output2 & " OS get /all /format:LIST"
-;~ Local $sysinfo3 = "WMIC /Output:" & $output3 & " COMPUTERSYSTEM get /all /format:LIST"
-;~ wmic /output:[C:/misprogramas.txt] product get name, version
-Local $CMD = "Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table –AutoSize > " & $file
-RunWait(@ComSpec & " /c " & $CMD_win7, "", @SW_SHOW)
-;~ RunWait(@ComSpec & " /c " & $sysinfo, "", @SW_SHOW)
-;~ RunWait(@ComSpec & " /c " & $sysinfo2, "", @SW_SHOW)
-;~ RunWait(@ComSpec & " /c " & $sysinfo3, "", @SW_SHOW)
-_FileReadToArray($output, $aSOFTinstall)
-;~ _ArrayDisplay( $aSOFTinstall,"Software instalado")
-_FileWriteFromArray($file, $aSOFTinstall, Default, Default, ",")
-Sleep(1000)
-FileDelete($output)
-;~ FileDelete($output1)
-;~ FileDelete($output2)
-;~ FileDelete($output3)
-;~ FileDelete($file)
-;~ BlockInput($BI_ENABLE)
-EndFunc
