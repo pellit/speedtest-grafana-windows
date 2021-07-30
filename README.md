@@ -1,6 +1,11 @@
 # speedtest-grafana-windows
 Repository containing an internet speed meter for windows with dashboard in grafana and service with autoit and go.
 
+View
+-------------------------------------------------
+https://github.com/pellit/speedtest-grafana-windows/issues/1#issue-956706617
+-------------------------------------------------
+
 Installation
 
 1 - Install XAMPP 
