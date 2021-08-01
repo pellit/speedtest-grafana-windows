@@ -1,4 +1,4 @@
-# speedtest-grafana-windows
+# speedtest-grafana-windows-mysql
 Repository containing an internet speed meter for windows with dashboard in grafana and service with autoit and go.
 
 View
@@ -50,5 +50,7 @@ In grafana + --> import --> charge file [windows-programfile]/PELLIT/Produccion_
 References
 -------------------------------------------------
 https://kruemcke.wordpress.com/2021/01/18/monitoring-home-internet-speed-on-windows-10-using-python-influxdb-and-grafana/
+
 https://github.com/pablokbs/peladonerd --> https://www.youtube.com/watch?v=C8pcbFyN7og
+
 https://github.com/geerlingguy/internet-monitoring
